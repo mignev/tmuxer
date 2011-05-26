@@ -1,0 +1,17 @@
+project_name: MyProject
+project_root: ~/Documents/MyProject
+tabs:
+  - name: editor
+    panes:
+      - pane: 
+        - cmd: 
+          - ls -la
+          - ps
+          - top
+        - resize:
+          - top:10
+          - left:10
+        - split: vertical 
+      - pane:
+        - cmd: ps aux
+        - split: horizontal
