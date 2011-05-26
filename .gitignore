@@ -1,0 +1,10 @@
+*~
+*.diff
+.DS_Store
+*.idea
+TODO
+*.swp
+*.pyc
+__pycache__
+*.tmux
+watch.rb
