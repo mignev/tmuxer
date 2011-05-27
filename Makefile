@@ -6,6 +6,7 @@ help:
 install:
 	@echo "Installing"
 	@sudo python setup.py install --record installed_files.txt
+
 uninstall:
 	@cat installed_files.txt | xargs rm -rf
 	@sudo rm installed_files.txt	
@@ -15,3 +16,4 @@ clean:
 	@sudo rm -rf Tmuxer.egg*
 	@sudo rm -rf dist
 	@sudo rm -rf build
+	@find . -name *.pyc -type f -exec rm {} \;
