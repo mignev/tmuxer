@@ -3,7 +3,21 @@ from datetime import datetime
 import yaml
 import os
 
+class Tmuxer:
+
+    def __init__(self):
+        pass
+
+    def open(self):
+        home_folder = os.getenv("HOME")
+        tmuxer_system_folder = home_folder + "/.tmuxer"
+        if not os.path.isdir(tmuxer_system_folder):
+            os.mkdir(tmuxer_system_folder)
+
+
 def main():
+    tmuxer = Tmuxer()
+    tmuxer.open()
     with open('/Users/mignev/Documents/tmuxer/samples/appsc.yml', 'r') as yaml_stream:
         parser(yaml_stream)
 

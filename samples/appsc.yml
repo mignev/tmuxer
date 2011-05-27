@@ -9,6 +9,16 @@ tabs:
           - pane:
             - cmd: bpython
             - split: horizontal
+            - panes:
+              - pane:
+                - cmd: python3
+                - split: horizontal
+              - pane:
+                - cmd: python2
+                - split: vertical
+              - pane:
+                - cmd: python18
+                - split: horizontal
       
       - pane:
         - cmd: cd tests
