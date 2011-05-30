@@ -37,7 +37,7 @@ config = ConfigParser.RawConfigParser()
 config.add_section('global')
 config.set('global', 'editor', 'vim')
 
-with open(tmuxer_system_folder + '/config') as configfile:
+with open(tmuxer_system_folder + '/config', 'w') as configfile:
     config.write(configfile)
 
 distutils.core.setup(name='Tmuxer',
