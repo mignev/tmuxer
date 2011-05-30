@@ -7,7 +7,7 @@ install:
 	@echo "Installing"
 	@sudo python setup.py install --record installed_files.txt
 
-uninstall:
+uninstall: clean
 	@cat installed_files.txt | xargs sudo rm -rf
 	@sudo rm installed_files.txt	
 	@sudo rm -rf ~/.tmuxer
