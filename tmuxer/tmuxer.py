@@ -4,6 +4,7 @@ import yaml
 import os
 import shutil
 import ConfigParser
+import sys
 
 class Tmuxer:
     def __init__(self):
@@ -22,17 +23,18 @@ class Tmuxer:
         target_project_file = self.tmuxer_dir + '/' + self.current_project + '.yml'
 
         if os.path.exists(target_project_file):
-            os.system(self.editor + ' ' + target_project_file)
+            pass
+            #os.system(self.editor + ' ' + target_project_file)
         else:
             shutil.copy(self.sample_conf, target_project_file)
-            os.system(self.editor + ' ' + target_project_file)
+            #os.system(self.editor + ' ' + target_project_file)
 
         return self._process_yml(target_project_file)
 
     def _process_yml(self, _yml_file):
         with open(_yml_file, 'r') as yml_stream:
             yml = yaml.load(yml_stream)
-            print(yml)
+            #print(yml['tabs'][0]['panes'])
             tmux_file_lines = list()
             
             tmux_file_lines.append('#!/bin/bash\n') 
@@ -51,7 +53,17 @@ class Tmuxer:
                     tmux_file_lines.append("tmux new-session -d -s '{0}' -n '{1}'\n".format(yml['project_name'], tab['name']))
                 else:
                     tmux_file_lines.append("tmux new-window -t '{0}':{1} -n '{2}'\n".format(yml['project_name'], tab_counter, tab['name']))
-                self._process_panes(tab['panes'], tab_counter)
+
+                if tab.has_key('layout'):
+                    layout = tab['layout']
+                else:
+                    layout = 'main-horizonral'
+
+                tmux_file_lines.append("tmux select-layout -t '{0}':{1} '{2}'\n\n".format(yml['project_name'], tab_counter,  layout))
+                
+                start_pane_id = 0
+                #print(tab)
+                self._process_panes(tab, tab_counter, start_pane_id)
                 tab_counter += 1
 
             tmux_file_lines.append("\nfi\n")
@@ -66,8 +78,10 @@ class Tmuxer:
             with open(self.compiled_files + self.current_project + '.tmux', 'w') as tmux_file:
                 tmux_file.writelines(tmux_file_lines)
     
-    def _process_panes(self, panes, tab_id):
-        pass
+    def _process_panes(self, panes, tab_id, pane_id):
+        lines = list()
+        print(panes)
+        sys.exit()
 
 if __name__ == '__main__':
     tmuxer = Tmuxer()

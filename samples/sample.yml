@@ -1,17 +1,40 @@
-project_name: MyProject
-project_root: ~/Documents/MyProject
+project_name: MyNewProject
+project_root: ~/Documents/MyNewProject
 tabs:
   - name: editor
+    layout: main-vertical
     panes:
-      - pane: 
-        - cmd: 
-          - ls -la
-          - ps
-          - top
-        - resize:
-          - top:10
-          - left:10
-        - split: vertical 
-      - pane:
-        - cmd: ps aux
-        - split: horizontal
+      - cmd: cd tests 
+        split: horizontal
+        panes:
+          - cmd:
+            - ls -la
+            - ps aux
+            - ls ls
+          - cmd: ps aux
+            split: horizontal
+            resize:
+              - top: 10
+              - left: 20
+            panes:
+              - cmd: python
+              - cmd: python3
+                split: vertical
+              - cmd: spam
+      
+      - cmd: cd appsc
+        split: horizontal
+      
+      - cmd: cd appsc
+        split: horizontal
+        resize:
+          - bottom: 5
+          - right: 10
+
+  - name: shell
+  - name: server
+    panes:
+      - cmd: ls
+      - cmd: ls -la
+      - cmd: ps aux
+  - name: ssh
