@@ -1,10 +1,11 @@
 help:
 	@echo "   install      to install Tmuxer"
 	@echo "   uninstall    to uninstall Tmuxer"
-	@echo "   clean        to clean useless files"
+	@echo "   clean        to clean build files"
 
 install:
 	@echo "Installing"
+	@python setup.py build
 	@sudo python setup.py install --record installed_files.txt
 
 uninstall: clean
