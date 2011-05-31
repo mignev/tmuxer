@@ -23,11 +23,10 @@ class Tmuxer:
         target_project_file = self.tmuxer_dir + '/' + self.current_project + '.yml'
 
         if os.path.exists(target_project_file):
-            pass
-            #os.system(self.editor + ' ' + target_project_file)
+            os.system(self.editor + ' ' + target_project_file)
         else:
             shutil.copy(self.sample_conf, target_project_file)
-            #os.system(self.editor + ' ' + target_project_file)
+            os.system(self.editor + ' ' + target_project_file)
 
         return self._process_yml(target_project_file)
 
@@ -35,6 +34,7 @@ class Tmuxer:
         with open(_yml_file, 'r') as yml_stream:
             yml = yaml.load(yml_stream)
             #print(yml['tabs'][0]['panes'])
+            self._project_name = yml['project_name']
             tmux_file_lines = list()
             
             tmux_file_lines.append('#!/bin/bash\n') 
@@ -63,7 +63,11 @@ class Tmuxer:
                 
                 start_pane_id = 0
                 #print(tab)
-                self._process_panes(tab, tab_counter, start_pane_id)
+                #sys.exit()	
+
+                if tab.has_key('panes'):
+                    tmux_file_lines += self._process_panes( tab['panes'], tab_counter, start_pane_id )
+
                 tab_counter += 1
 
             tmux_file_lines.append("\nfi\n")
@@ -80,8 +84,29 @@ class Tmuxer:
     
     def _process_panes(self, panes, tab_id, pane_id):
         lines = list()
-        print(panes)
-        sys.exit()
+        for pane in panes:
+            lines.append("tmux select-window -t '{0}':{1}\n".format(self._project_name, tab_id))
+            lines.append("tmux select-pane -t {0}\n".format(pane_id))
+
+            if isinstance(pane['cmd'], list):
+                for cmd in pane['cmd']:
+                    lines.append("tmux send-keys -t '{0}':{1} '{2}' C-m\n".format(self._project_name, tab_id, cmd))
+            else:
+                if pane.has_key('split'):
+                    lines.append("tmux splitw -t {0} -{1}\n".format(pane_id, pane['split'][0]))
+                else:
+                    lines.append("tmux splitw -t {0}\n".format(pane_id))
+
+            lines.append("tmux send-keys -t '{0}':{1} '{2}' C-m\n".format(self._project_name, tab_id, pane['cmd']))
+            pane_id += 1
+
+            #if pane.has_key('panes'):
+            #    lines += self._process_panes(pane['panes'], tab_id, pane_id)
+
+            lines.append('\n')
+            #print(pane)
+            #sys.exit()
+        return lines
 
 if __name__ == '__main__':
     tmuxer = Tmuxer()
