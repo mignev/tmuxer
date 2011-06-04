@@ -9,3 +9,4 @@ __pycache__
 *.tmux
 watch.rb
 installed_files.txt
+deploy
