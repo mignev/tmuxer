@@ -15,7 +15,7 @@ class Tmuxer:
 
         self.struct = dict()
 
-        self._version = '0.1'
+        self._version = '0.1.1'
 
         _config_path = self.tmuxer_dir + '/config'
         config = ConfigParser.RawConfigParser()
@@ -38,7 +38,6 @@ class Tmuxer:
     def _process_yml(self, _yml_file):
         with open(_yml_file, 'r') as yml_stream:
             yml = yaml.load(yml_stream)
-            #print(yml['tabs'][0]['panes'])
             self._project_name = yml['project_name']
             tmux_file_lines = list()
             
@@ -142,5 +141,6 @@ class Tmuxer:
         print(self._version)
 
 if __name__ == '__main__':
+    #for development purposes
     tmuxer = Tmuxer()
     tmuxer.open('tmuxer')
