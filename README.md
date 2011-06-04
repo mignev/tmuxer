@@ -28,7 +28,7 @@ Editing existing project
 
     tmuxer open project_name
 
-Deleting project
+Deleting a project
 
     tmuxer del project_name
 
