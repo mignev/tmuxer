@@ -4,37 +4,17 @@ tabs:
   - name: editor
     layout: main-vertical
     panes:
-      - cmd: cd tests 
-        split: horizontal
-        panes:
-          - cmd:
-            - ls -la
-            - ps aux
-            - ls ls
-          - cmd: ps aux
-            split: horizontal
-            resize:
-              - top: 10
-              - left: 20
-            panes:
-              - cmd: python
-              - cmd: python3
-                split: vertical
-              - cmd: spam
-      
-      - cmd: cd appsc
-        split: horizontal
-      
-      - cmd: cd appsc
+      - cmd: ls
+      - cmd: ps
+      - cmd: python
         split: horizontal
         resize:
-          - bottom: 5
+          - down: 5
           - right: 10
 
   - name: shell
   - name: server
     panes:
       - cmd: ls
-      - cmd: ls -la
       - cmd: ps aux
   - name: ssh
