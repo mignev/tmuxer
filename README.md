@@ -1,6 +1,7 @@
 Tmuxer is a simple python app who helps you to set up windows, panes and layouts for tmux using YAML configs.
 
 The idea for Tmuxer is inspired from these two projects:
+
 * Tmuxinator - https://github.com/aziz/tmuxinator
 * Teamocil - https://github.com/remiprev/teamocil
 
