@@ -1,5 +1,4 @@
 from __future__ import with_statement
-from datetime import datetime
 import yaml
 import os
 import shutil
@@ -100,14 +99,18 @@ class Tmuxer:
             lines.append("tmux send-keys -t '{0}':{1} '{2}' C-m\n".format(self._project_name, tab_id, pane['cmd']))
             pane_id += 1
 
-            #if pane.has_key('panes'):
-            #    lines += self._process_panes(pane['panes'], tab_id, pane_id)
+            if pane.has_key('panes'):
+                lines += self._process_panes(pane['panes'], tab_id, pane_id)
 
             lines.append('\n')
             #print(pane)
             #sys.exit()
         return lines
+    
+    def delete(project_name):
+        project_config_file = self.tmuxer_dir + '/' + project_name + '.yml'
+        project_tmux_file = self.compiled_files + '/' + project_name + '.tmux'
+        if os.path.exists(project_config_file):
+            os.remove(project_config_file)
+            os.remove(project_tmux_file)
 
-if __name__ == '__main__':
-    tmuxer = Tmuxer()
-    tmuxer.open('appsc')
