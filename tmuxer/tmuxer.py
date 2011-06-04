@@ -2,6 +2,7 @@ from __future__ import with_statement
 from re import search
 import yaml
 import os
+import sys
 import shutil
 import ConfigParser
 
@@ -11,6 +12,9 @@ class Tmuxer:
         self.sample_conf = self.tmuxer_dir + '/samples/sample.yml'
         self.compiled_files = self.tmuxer_dir + '/tmux_files/'
         self.shell = os.getenv("SHELL")
+
+        self.struct = dict()
+
         self._version = '0.1'
 
         _config_path = self.tmuxer_dir + '/config'
@@ -18,10 +22,6 @@ class Tmuxer:
         config.read(_config_path)
 
         self.editor = config.get('global', 'editor')
-
-    def version(self):
-        """returns current version of tmuxer"""
-        print(self._version)
 
     def open(self, project_name):
         self.current_project = project_name
@@ -47,8 +47,6 @@ class Tmuxer:
             tmux_file_lines.append('tmux start-server\n\n')
             tmux_file_lines.append("if ! $(tmux has-session -t '{0}'); then\n\n".format(yml['project_name']))
 
-            tmux_file_lines.append("tmux select-window -t '{0}':0\n".format(yml['project_name']))
-            
             tmux_file_lines.append("\n# set up tabs and panes\n\n")
 
             tab_counter = 0
@@ -61,19 +59,19 @@ class Tmuxer:
 
                 if tab.has_key('layout'):
                     layout = tab['layout']
-                else:
-                    layout = 'main-horizonral'
+                    tmux_file_lines.append("tmux select-layout -t '{0}':{1} '{2}'\n\n".format(yml['project_name'], tab_counter,  layout))
 
-                tmux_file_lines.append("tmux select-layout -t '{0}':{1} '{2}'\n\n".format(yml['project_name'], tab_counter,  layout))
                 
-                start_pane_id = 0
+                start_pane_id = start_parent_id = 0
                 #print(tab)
                 #sys.exit()	
 
                 if tab.has_key('panes'):
-                    tmux_file_lines += self._process_panes( tab['panes'], tab_counter, start_pane_id )
+                    tmux_file_lines += self._process_panes( tab['panes'], tab_counter, start_pane_id, start_parent_id )
 
                 tab_counter += 1
+
+            tmux_file_lines.append("\ttmux -u select-window -t '{0}':0\n".format(yml['project_name']))
 
             tmux_file_lines.append("\nfi\n")
             
@@ -87,30 +85,33 @@ class Tmuxer:
             with open(self.compiled_files + self.current_project + '.tmux', 'w') as tmux_file:
                 tmux_file.writelines(tmux_file_lines)
     
-    def _process_panes(self, panes, tab_id, pane_id):
+    def _process_panes(self, panes, tab_id, pane_id, parent_pane_id):
         lines = list()
         for pane in panes:
             lines.append("tmux select-window -t '{0}':{1}\n".format(self._project_name, tab_id))
+
+            if pane_id != 0:
+                if pane.has_key('split'):
+                    lines.append("tmux splitw -{0}\n".format(pane['split'][0]))
+                else:
+                    lines.append("tmux splitw\n".format(parent_pane_id))
+            
             lines.append("tmux select-pane -t {0}\n".format(pane_id))
+
+            if pane.has_key('resize'):
+                resize_kw = {'left': '-L', 'right': '-R', 'up': '-U', 'down': '-D'}
+                for resize in pane['resize']:
+                    lines.append("tmux resize-pane {0} {1}\n".format(resize_kw[ str(resize.keys()[0]) ], resize.values()[0] ))
 
             if isinstance(pane['cmd'], list):
                 for cmd in pane['cmd']:
                     lines.append("tmux send-keys -t '{0}':{1} '{2}' C-m\n".format(self._project_name, tab_id, cmd))
             else:
-                if pane.has_key('split'):
-                    lines.append("tmux splitw -t {0} -{1}\n".format(pane_id, pane['split'][0]))
-                else:
-                    lines.append("tmux splitw -t {0}\n".format(pane_id))
-
-            lines.append("tmux send-keys -t '{0}':{1} '{2}' C-m\n".format(self._project_name, tab_id, pane['cmd']))
-            pane_id += 1
-
-            if pane.has_key('panes'):
-                lines += self._process_panes(pane['panes'], tab_id, pane_id)
+                lines.append("tmux send-keys -t '{0}':{1} '{2}' C-m\n".format(self._project_name, tab_id, pane['cmd']))
 
             lines.append('\n')
-            #print(pane)
-            #sys.exit()
+            pane_id += 1
+
         return lines
     
     def delete(self, project_name):
@@ -120,12 +121,6 @@ class Tmuxer:
             os.remove(project_config_file)
             os.remove(project_tmux_file)
 
-    def projects_list(self):
-        for filename in os.listdir(self.tmuxer_dir):
-            if search(r'.yml', filename):
-                project_name = filename[:-4]
-                print(project_name)
-
     def run_project(self, project_name):
         project_tmux_file = self.compiled_files + '/' + project_name + '.tmux'
         if os.path.exists(project_tmux_file):
@@ -134,3 +129,18 @@ class Tmuxer:
             print('\nProject ' + project_name + ' does not exist!\n')
             print('To create project with this name type this:')
             print('  tmuxer open ' + project_name)
+
+    def projects_list(self):
+        for filename in os.listdir(self.tmuxer_dir):
+            if search(r'.yml', filename):
+                project_name = filename[:-4]
+                print(project_name)
+
+    
+    def version(self):
+        """returns current version of tmuxer"""
+        print(self._version)
+
+if __name__ == '__main__':
+    tmuxer = Tmuxer()
+    tmuxer.open('tmuxer')
