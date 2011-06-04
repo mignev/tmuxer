@@ -2,8 +2,10 @@ Tmuxer is a simple python app who helps you to set up windows, panes and layouts
 
 The idea for Tmuxer is inspired from these two projects:
 
-* Tmuxinator - https://github.com/aziz/tmuxinator
-* Teamocil - https://github.com/remiprev/teamocil
+* Tmuxinator - http://github.com/aziz/tmuxinator
+* Teamocil - http://github.com/remiprev/teamocil
+
+Thank you guys :)
 
 #Installation
 
