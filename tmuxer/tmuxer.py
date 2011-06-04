@@ -107,10 +107,9 @@ class Tmuxer:
             #sys.exit()
         return lines
     
-    def delete(project_name):
+    def delete(self, project_name):
         project_config_file = self.tmuxer_dir + '/' + project_name + '.yml'
         project_tmux_file = self.compiled_files + '/' + project_name + '.tmux'
         if os.path.exists(project_config_file):
             os.remove(project_config_file)
             os.remove(project_tmux_file)
-
