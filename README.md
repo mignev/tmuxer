@@ -32,6 +32,10 @@ Deleting project
 
     tmuxer del project_name
 
+Running a project
+    
+    tmuxer run project_name
+
 Prints a list with all existing projects
 
     tmuxer ls
