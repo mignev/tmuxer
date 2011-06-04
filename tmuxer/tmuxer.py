@@ -10,6 +10,7 @@ class Tmuxer:
         self.tmuxer_dir = os.getenv('HOME') + '/.tmuxer'
         self.sample_conf = self.tmuxer_dir + '/samples/sample.yml'
         self.compiled_files = self.tmuxer_dir + '/tmux_files/'
+        self.shell = os.getenv("SHELL")
         self._version = '0.1'
 
         _config_path = self.tmuxer_dir + '/config'
@@ -124,3 +125,12 @@ class Tmuxer:
             if search(r'.yml', filename):
                 project_name = filename[:-4]
                 print(project_name)
+
+    def run_project(self, project_name):
+        project_tmux_file = self.compiled_files + '/' + project_name + '.tmux'
+        if os.path.exists(project_tmux_file):
+            os.system( self.shell +' '+ project_tmux_file )
+        else:
+            print('\nProject ' + project_name + ' does not exist!\n')
+            print('To create project with this name type this:')
+            print('  tmuxer open ' + project_name)

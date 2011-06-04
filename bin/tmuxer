@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from tmuxer.tmuxer import Tmuxer
-import os
 import sys
 
 def run_tmuxer():
@@ -9,9 +8,6 @@ def run_tmuxer():
     if len( sys.argv ) == 1 or sys.argv[1] == 'help' or sys.argv[1] == '-h' or sys.argv[1] == '--help':
         help()
     else:
-        shell = os.getenv("SHELL")
-        tmuxer_sys_dir = os.getenv("HOME") + '/.tmuxer'
-        tmuxer_tmux_files_dir = tmuxer_sys_dir + '/tmux_files'
         tmuxer = Tmuxer()
         action = sys.argv[1]
 
@@ -35,13 +31,7 @@ def run_tmuxer():
         elif action == 'del':
             tmuxer.delete(project_name)
         elif action == 'run':
-            target_tmux_file = tmuxer_tmux_files_dir + '/' + project_name + '.tmux'
-            if os.path.exists( target_tmux_file):
-                os.system( shell +' '+ target_tmux_file )
-            else:
-                print('\nProject ' + project_name + ' does not exist!\n')
-                print('To create project with this name type this:')
-                print('  tmuxer open ' + project_name)
+            tmuxer.run_project(project_name)
 
 def help():
     """print help info"""
