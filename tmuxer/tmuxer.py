@@ -10,12 +10,17 @@ class Tmuxer:
         self.tmuxer_dir = os.getenv('HOME') + '/.tmuxer'
         self.sample_conf = self.tmuxer_dir + '/samples/sample.yml'
         self.compiled_files = self.tmuxer_dir + '/tmux_files/'
+        self._version = '0.1'
 
         _config_path = self.tmuxer_dir + '/config'
         config = ConfigParser.RawConfigParser()
         config.read(_config_path)
 
         self.editor = config.get('global', 'editor')
+
+    def version(self):
+        """returns current version of tmuxer"""
+        print(self._version)
 
     def open(self, project_name):
         self.current_project = project_name
