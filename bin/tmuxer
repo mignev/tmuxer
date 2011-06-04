@@ -15,6 +15,10 @@ def run_tmuxer():
         tmuxer = Tmuxer()
         action = sys.argv[1]
 
+        if action == 'ls':
+            tmuxer.projects_list()
+            sys.exit()
+
         try:
             option = sys.argv[2]
         except IndexError:
@@ -40,6 +44,7 @@ def help():
     print("Usage: tmuxer [action] [arguments]\n")
     print("Actions:")
     print("\thelp, -h, --help     show help message and exit")
+    print("\tls                   print list of existing projects")
     print("\topen <projectname>   open project in file editor")
     print("\tdel <projectname>    delete project")
     print("\trun <projectname>    runs the project")

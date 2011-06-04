@@ -1,9 +1,9 @@
 from __future__ import with_statement
+from re import search
 import yaml
 import os
 import shutil
 import ConfigParser
-import sys
 
 class Tmuxer:
     def __init__(self):
@@ -113,3 +113,9 @@ class Tmuxer:
         if os.path.exists(project_config_file):
             os.remove(project_config_file)
             os.remove(project_tmux_file)
+
+    def projects_list(self):
+        for filename in os.listdir(self.tmuxer_dir):
+            if search(r'.yml', filename):
+                project_name = filename[:-4]
+                print(project_name)
