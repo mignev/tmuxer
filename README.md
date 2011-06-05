@@ -20,7 +20,8 @@ Installation without `make`
 
 #Example
 
-![Simple Example](http://oi55.tinypic.com/f2u55f.jpg)
+![Example](http://oi55.tinypic.com/f2u55f.jpg)
+
 
 #Usage
 
