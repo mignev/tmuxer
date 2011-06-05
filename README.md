@@ -18,6 +18,9 @@ Installation without `make`
     python setup.py build
     sudo python setup.py install 
 
+#Example
+![Simple Example](http://dl.dropbox.com/u/4710119/tmuxer/tmuxer_simple_example.png)
+
 #Usage
 
 Creating new project
