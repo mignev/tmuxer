@@ -43,3 +43,7 @@ Prints a list with all existing projects
 Prints a current `tmuxer` version
 
     tmuxer version
+
+#Copyright
+
+Copyright (c) 2011 Marian Ignev. See LICENSE for further details.
