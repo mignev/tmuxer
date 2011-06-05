@@ -19,6 +19,7 @@ Installation without `make`
     sudo python setup.py install 
 
 #Example
+
 ![Simple Example](http://dl.dropbox.com/u/4710119/tmuxer/tmuxer_simple_example.png)
 
 #Usage
