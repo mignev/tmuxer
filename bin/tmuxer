@@ -28,7 +28,7 @@ def run_tmuxer():
 
         if action == 'open':
             tmuxer.open(project_name)
-        elif action == 'del':
+        elif action == 'del' or action == 'rm':
             tmuxer.delete(project_name)
         elif action == 'run':
             tmuxer.run_project(project_name)
@@ -37,11 +37,11 @@ def help():
     """print help info"""
     print("Usage: tmuxer [action] [arguments]\n")
     print("Actions:")
-    print("\thelp, -h, --help      show help message and exit")
-    print("\topen <projectname>    open project in file editor")
-    print("\tdel  <projectname>    delete project")
-    print("\trun  <projectname>    runs the project")
-    print("\tls                    print list of existing projects")
+    print("\thelp, -h, --help          show help message and exit")
+    print("\topen     <projectname>    open project in file editor")
+    print("\trm, del  <projectname>    delete project")
+    print("\trun      <projectname>    runs the project")
+    print("\tls                        print list of existing projects")
     print("\tversion")
 
     sys.exit()

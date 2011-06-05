@@ -30,7 +30,7 @@ Editing existing project
 
 Deleting a project
 
-    tmuxer del project_name
+    tmuxer rm/del project_name
 
 Running a project
     

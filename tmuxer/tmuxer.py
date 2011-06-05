@@ -15,7 +15,7 @@ class Tmuxer:
 
         self.struct = dict()
 
-        self._version = '0.1.1'
+        self._version = '0.1.2'
 
         _config_path = self.tmuxer_dir + '/config'
         config = ConfigParser.RawConfigParser()
@@ -41,7 +41,7 @@ class Tmuxer:
             self._project_name = yml['project_name']
             tmux_file_lines = list()
             
-            tmux_file_lines.append('#!/bin/bash\n') 
+            tmux_file_lines.append('#!'+self.shell+'\n')
             tmux_file_lines.append('cd ' + yml['project_root'] + '\n')
             tmux_file_lines.append('tmux start-server\n\n')
             tmux_file_lines.append("if ! $(tmux has-session -t '{0}'); then\n\n".format(yml['project_name']))
