@@ -20,7 +20,7 @@ Installation without `make`
 
 #Example
 
-![Simple Example](http://dl.dropbox.com/u/4710119/tmuxer/tmuxer_simple_example.png)
+![Simple Example](http://oi55.tinypic.com/f2u55f.jpg)
 
 #Usage
 
