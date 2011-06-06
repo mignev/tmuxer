@@ -7,6 +7,16 @@ The idea for Tmuxer is inspired from these two projects:
 
 Thank you guys :)
 
+#Example
+
+![Example](http://oi55.tinypic.com/f2u55f.jpg)
+
+#Requirements
+
+* Tmux (of course) - tested with Tmux 1.4
+* Python 2.5+
+* PyYAML (latest version recommended) - tested with PyYAML 3.10
+
 #Installation
 
 Installation with `make`
@@ -17,10 +27,6 @@ Installation without `make`
 
     python setup.py build
     sudo python setup.py install 
-
-#Example
-
-![Example](http://oi55.tinypic.com/f2u55f.jpg)
 
 
 #Usage
