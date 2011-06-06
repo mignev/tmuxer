@@ -15,8 +15,6 @@ class Tmuxer:
 
         self.struct = dict()
 
-        self._version = '0.1.2'
-
         _config_path = self.tmuxer_dir + '/config'
         config = ConfigParser.RawConfigParser()
         config.read(_config_path)
@@ -136,10 +134,6 @@ class Tmuxer:
                 print(project_name)
 
     
-    def version(self):
-        """returns current version of tmuxer"""
-        print(self._version)
-
 if __name__ == '__main__':
     #for development purposes
     tmuxer = Tmuxer()

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from __future__ import with_statement
+from tmuxer import version as tmuxer_version
 import distutils.core
 import sys
 import shutil
@@ -47,7 +48,7 @@ if sys.argv[1] == 'build':
 		config.write(configfile)
 
 distutils.core.setup(name='Tmuxer',
-      version='1.0',
+      version=tmuxer_version,
       description='Python tmux layouts and panes manipulator',
       author='Marian Ignev',
       author_email='m@ignev.net',

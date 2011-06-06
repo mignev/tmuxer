@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from tmuxer.tmuxer import Tmuxer
+from tmuxer import version as tmuxer_version
 import sys
 
 def run_tmuxer():
@@ -16,7 +17,7 @@ def run_tmuxer():
             sys.exit()
 
         if action == 'version':
-            tmuxer.version()
+            print(tmuxer_version)
             sys.exit()
 
         try:
